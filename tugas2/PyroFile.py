@@ -12,7 +12,10 @@ class FileManager(object):
         return FileManager.DIRECTORY_PATH
 
     def get_listdir(self) -> list:
-        return os.listdir(FileManager.DIRECTORY_PATH)
+        file_list = []
+        for filename in os.listdir(FileManager.DIRECTORY_PATH):
+            file_list.append((filename, os.path.getsize(FileManager.DIRECTORY_PATH + filename)))
+        return file_list
 
     def delete_file(self, filename: str) -> (bool, str):
         deleted = False
