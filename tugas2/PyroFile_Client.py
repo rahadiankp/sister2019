@@ -92,8 +92,9 @@ class PyroFileClient(object):
             if status:
                 print(message)
             else:
-                print("Error occured:", message)
+                print("Error occurred:", message)
         print()
+
 
 if __name__=='__main__':
     uri = ""
