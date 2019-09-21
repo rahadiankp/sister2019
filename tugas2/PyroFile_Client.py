@@ -27,9 +27,9 @@ class PyroFileClient(object):
                 elif args[0] == "cat":
                     self.read_file(args[1])
                 elif args[0] == "touch":
-                    self.create_file(args[1])
+                    self.create_file(args[1:])
                 elif args[0] == "rm":
-                    self.delete_file(args[1])
+                    self.delete_file(args[1:])
                 elif args[0] == "nano":
                     self.update_file(args[1])
                 elif args[0] == "exit":
@@ -48,13 +48,14 @@ class PyroFileClient(object):
         for (filename, size) in file_list:
             print("->", size, "\t\t", filename)
 
-    def create_file(self, filename):
-        status, message = self.remote.create_file(filename)
-        if status:
-            print(message)
-            print()
-        else:
-            print("Error occured:", message)
+    def create_file(self, filenames: list):
+        for filename in filenames:
+            status, message = self.remote.create_file(filename)
+            if status:
+                print(message)
+            else:
+                print("Error occurred:", message)
+        print()
 
     def read_file(self, filename):
         status, recv_filename, size, content = self.remote.read_file(filename)
@@ -62,6 +63,9 @@ class PyroFileClient(object):
         if status:
             print("Opening file", filename, "("+str(size)+") :")
             print(content.decode("latin-1")) # forced to use latin-1, due to weird error
+            print()
+        else:
+            print(recv_filename)
             print()
 
     def update_file(self, filename):
@@ -82,12 +86,14 @@ class PyroFileClient(object):
         else:
             print(message, "\n")
 
-    def delete_file(self, filename):
-        status, message = self.remote.delete_file(filename)
-        if status:
-            print(message, "\n")
-        else:
-            print("Error occured:", message, "\n")
+    def delete_file(self, filenames: list):
+        for filename in filenames:
+            status, message = self.remote.delete_file(filename)
+            if status:
+                print(message)
+            else:
+                print("Error occured:", message)
+        print()
 
 if __name__=='__main__':
     uri = ""
