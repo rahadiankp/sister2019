@@ -1,10 +1,12 @@
-import os
+import os, glob
 from random import randint
 import serpent
+from Pyro4 import expose
 
 
+@expose
 class FileManager(object):
-    DIRECTORY_PATH = "D:\\sample_files\\"
+    DIRECTORY_PATH = ""
 
     def __init__(self):
         pass
@@ -21,7 +23,12 @@ class FileManager(object):
     def delete_file(self, filename: str) -> (bool, str):
         deleted = False
         try:
-            os.remove(FileManager.DIRECTORY_PATH+filename)
+            # if globing enabled
+            if "*" in filename:
+                for f in glob.iglob(FileManager.DIRECTORY_PATH+filename):
+                    os.remove(f)
+            else:
+                os.remove(FileManager.DIRECTORY_PATH+filename)
             deleted = not deleted
             message = "File " + filename + " successfully deleted"
         except FileNotFoundError:
