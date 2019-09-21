@@ -1,10 +1,19 @@
 import Pyro4
+import Pyro4.errors
 import serpent
+import sys
 
 
 class PyroFileClient(object):
     def __init__(self, uri):
         self.remote = self.make_connection(uri)
+        # check connection
+        try:
+            self.remote.get_cwd()
+            print("Connecting to PyroFile OK")
+        except Pyro4.errors.CommunicationError:
+            print("Connecting to PyroFile FAILED. Exiting")
+            sys.exit(0)
 
         # start client
         self.main()
@@ -97,7 +106,6 @@ class PyroFileClient(object):
 
 
 if __name__ == '__main__':
-    uri = ""
     with open("pyro_host", "r") as fd:
         uri = fd.readline()
     client = PyroFileClient(uri)
