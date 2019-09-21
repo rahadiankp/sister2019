@@ -106,6 +106,19 @@ class PyroFileClient(object):
 
 
 if __name__ == '__main__':
-    with open("pyro_host", "r") as fd:
-        uri = fd.readline()
+    if len(sys.argv) == 1:
+        try:
+            with open("pyro_host", "r") as fd:
+                uri = fd.readline()
+        except FileNotFoundError:
+            print("Could not find pyro_hist file. Please manually specify host")
+            sys.exit(0)
+    else:
+        if sys.argv[1] == "--help":
+            print("Usage: python Pyrofile_Client.py [HOST]")
+            print("Options and arguments:")
+            print("HOST\tPyroFile Server host to use. If not specified, automatically use host in pyro_host file")
+            print("--help\tPrint this information")
+        else:
+            uri = sys.argv[1]
     client = PyroFileClient(uri)
