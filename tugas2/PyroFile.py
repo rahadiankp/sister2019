@@ -50,7 +50,7 @@ class FileManager(object):
         except FileNotFoundError:
             return False, "File " + filename + " could not be found", -1, b""
 
-    # will overwrite instead of append
+    # will overwrite instead of append and create file if filename doesnt exists
     def update_file(self, filename: str, content: bytes, size: int) -> (bool, str, int):
         content = serpent.tobytes(content)
         try:
