@@ -121,4 +121,5 @@ if __name__ == '__main__':
             print("--help\tPrint this information")
         else:
             uri = sys.argv[1]
+        sys.exit(0)
     client = PyroFileClient(uri)
