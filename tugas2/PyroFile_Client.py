@@ -96,7 +96,7 @@ class PyroFileClient(object):
         print()
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     uri = ""
     with open("pyro_host", "r") as fd:
         uri = fd.readline()
