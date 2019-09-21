@@ -1,5 +1,6 @@
 import os
 from random import randint
+import serpent
 
 
 class FileManager(object):
@@ -50,12 +51,13 @@ class FileManager(object):
             return False, "File " + filename + " could not be found", -1, b""
 
     # will overwrite instead of append
-    def update_file(self, filename: str, content: str, size: int) -> (bool, str, int):
+    def update_file(self, filename: str, content: bytes, size: int) -> (bool, str, int):
+        content = serpent.tobytes(content)
         try:
             # pseudo-COW
             temp_filename = ".tempfile-"+str(randint(420, 42069))
             with open(FileManager.DIRECTORY_PATH+temp_filename, "wb") as temp_fd:
-                write_size = temp_fd.write(content.encode())
+                write_size = temp_fd.write(content)
             # check if write size doesn't match
             if write_size != size:
                 return False, "Error on writing", -1
