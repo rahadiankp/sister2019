@@ -33,12 +33,8 @@ if __name__ == "__main__":
     HOST = "localhost"
     PORT = 6969
 
-    options, misc = getopt.getopt(sys.argv[1:], "d:wn:h:p:", ["dpath=",
-                                                           "withns",
-                                                           "name=",
-                                                           "host=",
-                                                           "port=",
-                                                           "help"])
+    options, misc = getopt.getopt(sys.argv[1:], "d:wn:h:p:",
+                                  ["dpath=", "withns", "name=", "host=", "port=", "help"])
 
     for opt, val in options:
         if opt == "--help":
