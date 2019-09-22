@@ -69,7 +69,6 @@ class PyroFileClient(object):
                 print(message)
             else:
                 print("Error occurred:", message)
-        print()
 
     def read_file(self, filename):
         status, recv_filename, size, content = self.remote.read_file(filename)
@@ -77,10 +76,8 @@ class PyroFileClient(object):
         if status:
             print("Opening file", filename, "("+str(size)+") :")
             print(content.decode("latin-1")) # forced to use latin-1, due to weird error
-            print()
         else:
             print(recv_filename)
-            print()
 
     def update_file(self, filename):
         content = ""
@@ -107,7 +104,6 @@ class PyroFileClient(object):
                 print(message)
             else:
                 print("Error occurred:", message)
-        print()
 
 
 if __name__ == '__main__':
