@@ -104,7 +104,8 @@ class PyroFileClient(object):
     def update_file(self, filename):
         content = ""
         # start inserting content
-        print("Insert content to update file:", filename, "Press CTRL+C to finish and save")
+        print("Insert content to update file:", "'"+filename+"'",
+              "Press CTRL+C to finish and save. If blank CTRL+C will cancel editing and not saving")
         try:
             while True:
                 tmp = input()
@@ -112,6 +113,11 @@ class PyroFileClient(object):
                 content += tmp
         except KeyboardInterrupt:
             print("\nSaving content to file")
+
+        # check if blank content. cancel save
+        if content == "":
+            print("Edit file canceled. File not saved")
+            return
         status, message, write_size = \
             self.remote.update_file(filename, content.encode("utf-8"), len(content.encode("utf-8")))
         if status:
