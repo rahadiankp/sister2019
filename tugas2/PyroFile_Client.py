@@ -36,12 +36,18 @@ class PyroFileClient(object):
                 if args[0] == "ls":
                     self.get_listdir()
                 elif args[0] == "cat":
+                    if len(args) == 1:
+                        print("cat requires 1 additional argument")
+                        continue
                     self.read_file(args[1])
                 elif args[0] == "touch":
                     self.create_file(args[1:])
                 elif args[0] == "rm":
                     self.delete_file(args[1:])
                 elif args[0] == "nano":
+                    if len(args) == 1:
+                        print("nano requires 1 additional argument")
+                        continue
                     self.update_file(args[1])
                 elif args[0] == "exit":
                     print("Exiting. Goodbye.")
