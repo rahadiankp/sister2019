@@ -1,8 +1,4 @@
-# Python Pyro Assignment 2
-### Distributed System TC-ITS 19/20
-Rahadian K Putra  
-05111640000006  
-  
+# Python Pyro Assignment 2  
 ## How-To
 ### Dependencies Installation
 ```shell script
