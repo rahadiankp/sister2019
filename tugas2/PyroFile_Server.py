@@ -40,10 +40,10 @@ if __name__ == "__main__":
         if opt == "--help":
             print("Usage: python PyroFile_Server.py options")
             print("Options:")
-            print("-d, --dpath=path\tRequired. Root directory to use. Default to /var/pyrofileserver")
+            print("-d, --dpath=path\tRequired. Root directory to use. Default to '/var/pyrofileserver'")
             print("-w, --withns\tUse Pyro Nameserver")
-            print("-n, --name=name\tUse Pyro Nameserver naming. Default to pyrofileserver")
-            print("-h, --host=host\tUse Pyro Nameserver host. Default to localhost")
+            print("-n, --name=name\tUse Pyro Nameserver naming. Default to 'pyrofileserver'")
+            print("-h, --host=host\tUse Pyro Nameserver host. Default to 'localhost'")
             print("-p, --port=port\tUse Pyro Nameserver port. Default to 6969")
             print("--help\tPrint this information")
             sys.exit(0)
