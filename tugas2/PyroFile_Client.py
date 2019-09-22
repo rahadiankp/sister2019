@@ -97,23 +97,23 @@ class PyroFileClient(object):
         content = serpent.tobytes(content)
         if status:
             print("Opening file", filename, "("+str(size)+") :")
-            print(content.decode("latin-1")) # forced to use latin-1, due to weird error
+            print(content.decode("utf-8"))
         else:
             print(recv_filename)
 
     def update_file(self, filename):
         content = ""
-        size = 0
         # start inserting content
         print("Insert content to update file:", filename, "Press CTRL+C to finish and save")
         try:
             while True:
                 tmp = input()
-                content += tmp + "\n"
-                size += len(tmp)+1
+                tmp += "\n"
+                content += tmp
         except KeyboardInterrupt:
             print("\nSaving content to file")
-        status, message, write_size = self.remote.update_file(filename, content.encode(), size)
+        status, message, write_size = \
+            self.remote.update_file(filename, content.encode("utf-8"), len(content.encode("utf-8")))
         if status:
             print(message, write_size, "bytes written\n")
         else:
