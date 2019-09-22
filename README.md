@@ -5,7 +5,9 @@ Rahadian K Putra
   
 ## How-To
 ### Dependencies Installation
-```pip install -r requirements.txt```  
+```shell script
+pip install -r requirements.txt
+```  
 
 ### Run Program
 #### Server
