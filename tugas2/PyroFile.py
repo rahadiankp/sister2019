@@ -68,7 +68,8 @@ class FileManager(object):
                 write_size = temp_fd.write(content)
             # check if write size doesn't match
             if write_size != size:
-                return False, "Error on writing", -1
+                return False, "Error on writing. Original write size "\
+                       + str(size) + " written write size " + str(write_size), -1
             # delete original file
             self.delete_file(FileManager.DIRECTORY_PATH + "/" + filename)
             # rename tempfile to filename
