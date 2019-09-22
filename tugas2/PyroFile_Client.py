@@ -2,14 +2,15 @@ import Pyro4
 import Pyro4.errors
 import serpent
 import sys
+import getopt
 
 
 class PyroFileClient(object):
     def __init__(self, uri):
+        print("Trying to connect to", uri)
         self.remote = self.make_connection(uri)
         # check connection
         try:
-            print("Trying to connect to", uri)
             self.remote.get_cwd()
             print("Connecting to PyroFile OK")
         except Pyro4.errors.CommunicationError:
@@ -107,20 +108,23 @@ class PyroFileClient(object):
 
 
 if __name__ == '__main__':
+    uri = ""
     if len(sys.argv) == 1:
         try:
             with open("pyro_host", "r") as fd:
                 uri = fd.readline()
         except FileNotFoundError:
-            print("Could not find pyro_hist file. Please manually specify host")
+            print("Could not find pyro_host file. Please manually specify host")
             sys.exit(0)
     else:
-        if sys.argv[1] == "--help":
-            print("Usage: python Pyrofile_Client.py [HOST]")
-            print("Options and arguments:")
-            print("HOST\tPyroFile Server host to use. If not specified, automatically use host in pyro_host file")
-            print("--help\tPrint this information")
-            sys.exit(0)
-        else:
-            uri = sys.argv[1]
+        options, misc = getopt.getopt(sys.argv[1:], "h:", ["host=", "help"])
+        for opt, val in options:
+            if opt == "--help":
+                print("Usage: python Pyrofile_Client.py [HOST]")
+                print("Options and arguments:")
+                print("-h, --host=uri\tHost to use. If not specified, automatically use host in pyro_host file")
+                print("--help\t\tPrint this information")
+                sys.exit(0)
+            elif opt in ["-h", "--host"]:
+                uri = val
     client = PyroFileClient(uri)
