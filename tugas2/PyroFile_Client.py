@@ -12,7 +12,7 @@ class PyroFileClient(object):
         # check connection
         try:
             self.remote.get_cwd()
-            print("Connecting to PyroFile OK")
+            print("Connecting to PyroFile OK\n")
         except Pyro4.errors.CommunicationError:
             print("Connecting to PyroFile FAILED. Exiting")
             sys.exit(0)
@@ -26,6 +26,7 @@ class PyroFileClient(object):
 
     def main(self):
         print("PyroFile - RKP - SISTER 2019")
+        print("Type 'help' for more information")
         try:
             while True:
                 command = input(">  ")
@@ -41,8 +42,14 @@ class PyroFileClient(object):
                         continue
                     self.read_file(args[1])
                 elif args[0] == "touch":
+                    if len(args) == 1:
+                        print("touch requires 1 or more additional arguments")
+                        continue
                     self.create_file(args[1:])
                 elif args[0] == "rm":
+                    if len(args) == 1:
+                        print("rm requires 1 or more additional arguments")
+                        continue
                     self.delete_file(args[1:])
                 elif args[0] == "nano":
                     if len(args) == 1:
@@ -52,6 +59,15 @@ class PyroFileClient(object):
                 elif args[0] == "exit":
                     print("Exiting. Goodbye.")
                     return
+                elif args[0] == "help":
+                    print("Available commands:")
+                    print("ls\t\t\tShow directory listing")
+                    print("cat FILE\t\tRead a FILE")
+                    print("touch FILE1 [FILE2] ...\tCreate new blank file(s)")
+                    print("rm FILE1 [FILE2] ...\tDelete file(s). Support globing")
+                    print("nano FILE\t\tEdit a FILE. Will overwrite content entirely")
+                    print("help\t\t\tPrint this information")
+                    print("exit\t\t\tExit this prompt")
                 else:
                     print("Unknown command")
         except KeyboardInterrupt:
