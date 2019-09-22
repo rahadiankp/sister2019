@@ -54,10 +54,13 @@ class PyroFileClient(object):
 
     def get_listdir(self):
         file_list = self.remote.get_listdir()
+        if not file_list:
+            print("Directory is empty")
+            return
         print("File List:")
-        print("  Length\t Name")
+        print("   Name (Length)")
         for (filename, size) in file_list:
-            print("->", size, "\t\t", filename)
+            print("->", filename, "("+str(size)+" bytes)")
 
     def create_file(self, filenames: list):
         for filename in filenames:
