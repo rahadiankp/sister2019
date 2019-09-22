@@ -9,6 +9,7 @@ class PyroFileClient(object):
         self.remote = self.make_connection(uri)
         # check connection
         try:
+            print("Trying to connect to", uri)
             self.remote.get_cwd()
             print("Connecting to PyroFile OK")
         except Pyro4.errors.CommunicationError:
@@ -119,7 +120,7 @@ if __name__ == '__main__':
             print("Options and arguments:")
             print("HOST\tPyroFile Server host to use. If not specified, automatically use host in pyro_host file")
             print("--help\tPrint this information")
+            sys.exit(0)
         else:
             uri = sys.argv[1]
-        sys.exit(0)
     client = PyroFileClient(uri)
