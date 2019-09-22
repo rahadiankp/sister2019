@@ -28,7 +28,7 @@ def start_server(directory: str, with_ns=False, ns_host="localhost", ns_port=696
 
 if __name__ == "__main__":
     WITH_NS = False
-    DIRECTORY_PATH = "/var/pyrofileserver"
+    DIRECTORY_PATH = ""
     NAME = "pyrofileserver"
     HOST = "localhost"
     PORT = 6969
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         if opt == "--help":
             print("Usage: python PyroFile_Server.py options")
             print("Options:")
-            print("-d, --dpath=path\tRequired. Root directory to use. Default to '/var/pyrofileserver'")
+            print("-d, --dpath=path\tRequired. Root directory to use")
             print("-w, --withns\tUse Pyro Nameserver")
             print("-n, --name=name\tUse Pyro Nameserver naming. Default to 'pyrofileserver'")
             print("-h, --host=host\tUse Pyro Nameserver host. Default to 'localhost'")
@@ -57,6 +57,10 @@ if __name__ == "__main__":
             HOST = val
         elif opt in ["-p", "--port"]:
             PORT = int(val)
+
+    if DIRECTORY_PATH == "":
+        print("Directory Path is not set. Use -d or --dpath to set")
+        sys.exit(0)
 
     if WITH_NS:
         start_server(DIRECTORY_PATH, WITH_NS, HOST, PORT, NAME)

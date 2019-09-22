@@ -11,7 +11,7 @@ pip install -r requirements.txt
 python PyroFile_Server.py -d DPATH -w -n NAME -h HOST -p PORT
 
 Options:
--d DPATH, --dpath=DPATH   Required. Root directory to use. Default to '/var/pyrofileserver'
+-d DPATH, --dpath=DPATH   Required. Root directory to use
 -w, --withns              Use Pyro Nameserver
 -n NAME, --name=NAME      Use Pyro Nameserver naming. Default to 'pyrofileserver'
 -h HOST, --host=HOST      Use Pyro Nameserver host. Default to 'localhost'
