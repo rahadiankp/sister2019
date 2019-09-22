@@ -51,6 +51,8 @@ if __name__ == "__main__":
             print("-p, --port=port\tUse Pyro Nameserver port. Default to 6969")
             print("--help\tPrint this information")
             sys.exit(0)
+        elif opt in ["-d", "--dpath"]:
+            DIRECTORY_PATH = val
         elif opt in ["-w", "--withns"]:
             WITH_NS = True
         elif opt in ["-n", "--name"]:
