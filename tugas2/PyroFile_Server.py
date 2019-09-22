@@ -39,8 +39,6 @@ if __name__ == "__main__":
                                                            "port=",
                                                            "help"])
 
-    print(options)
-
     for opt, val in options:
         if opt == "--help":
             print("Usage: python PyroFile_Server.py options")
