@@ -21,7 +21,8 @@ def start_server(directory: str, with_ns=False, ns_host="localhost", ns_port=696
         ns.register(name, uri)
     write_uri_to_file(uri.asString())
 
-    print("OK PyroFile URI:", uri)
+    print("PyroFile URI:", uri)
+    print("URI with NS:", "PYRONAME:"+name+"@"+ns_host+":"+str(ns_port))
     daemon.requestLoop()
 
 
