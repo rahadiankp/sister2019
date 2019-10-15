@@ -18,12 +18,11 @@ def write_uri_to_file(uri: str) -> None:
 def write_uri_failure_detector(id: str, fd_type: str, uri_failure_detection = None, append = False):
     if uri_failure_detection:
         type = fd_type.split("_")[0]
+        mode = "w"
         if append:
-            with open("failure_detection_host", "a+") as fd:
-                fd.write(type + " " + id + " " + uri_failure_detection.asString() + "\n")
-        else:
-            with open("failure_detection_host", "w") as fd:
-                fd.write(type + " " + id + " " + uri_failure_detection.asString() + "\n")
+            mode = "a+"
+        with open("failure_detection_host", mode) as fd:
+            fd.write(type + " " + id + " " + uri_failure_detection.asString() + "\n")
 
 
 class FailureDetectionHostReload(threading.Thread):
