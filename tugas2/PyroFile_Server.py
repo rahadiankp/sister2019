@@ -84,7 +84,7 @@ def start_server(directory: str, fd_type: str = None, with_ns=False, ns_host="lo
                     fd_client_thread = PingAckClient(fd_conn, 5)
                     fd_client_thread.start()
                     break
-                if type == "heartbeat":
+                if type == "heartbeat" and fd_id not in id_list:
                     fd_client_thread = HeartbeatClient(fd_conn, id, 5)
                     fd_client_thread.start()
                     break
@@ -112,9 +112,9 @@ def heartbeat_callback(id, seqno):
 
 
 def randomString(stringLength=10):
-    """Generate a random string of fixed length """
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(stringLength))
+    letters = string.ascii_lowercase + string.digits
+    id = "PYROFS-"
+    return id+''.join(random.choice(letters) for i in range(stringLength))
 
 
 if __name__ == "__main__":

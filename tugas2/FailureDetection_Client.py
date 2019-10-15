@@ -48,6 +48,6 @@ class HeartbeatClient(threading.Thread):
                 self.seqno += 1
                 time.sleep(self.period)
         except Pyro4.errors.ConnectionClosedError:
-            print("Peer is down")
+            print("Peer", self.id, "is down")
             self.alive = False
             return
