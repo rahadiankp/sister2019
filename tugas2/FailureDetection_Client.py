@@ -1,7 +1,5 @@
 from FailureDetection import PingAck, Heartbeat
 import Pyro4
-import random
-import string
 import threading
 import time
 
@@ -33,10 +31,10 @@ class PingAckClient(threading.Thread):
 
 
 class CentralizedHeartbeatClient(threading.Thread):
-    def __init__(self, server: Heartbeat, period: int):
+    def __init__(self, server: Heartbeat, id: str, period: int):
         self.server: Heartbeat = server
         self.period = period
-        self.id = self.randomString()
+        self.id = id
         threading.Thread.__init__(self)
 
         self.seqno = 1
@@ -53,8 +51,3 @@ class CentralizedHeartbeatClient(threading.Thread):
             print("Peer is down")
             self.alive = False
             return
-
-    def randomString(self, stringLength=10):
-        """Generate a random string of fixed length """
-        letters = string.ascii_lowercase
-        return ''.join(random.choice(letters) for i in range(stringLength))
