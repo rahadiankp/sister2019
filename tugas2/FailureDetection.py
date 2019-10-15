@@ -23,9 +23,9 @@ class Heartbeat(object):
         self.period = period
 
     def knock(self, id: str, seqno: int) -> int:
-        if not id in self.server_list:
+        if id not in self.server_list:
             self.server_list[id] = 0
-        print(id, ":", self.server_list[id], 'to', seqno)
+        # print(id, ":", self.server_list[id], 'to', seqno)
         self.server_list[id] = seqno
         if Heartbeat.callback:
             Heartbeat.callback(id, seqno)

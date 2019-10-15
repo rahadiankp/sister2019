@@ -44,7 +44,7 @@ class HeartbeatClient(threading.Thread):
     def run(self) -> None:
         try:
             while True:
-                print(self.server.knock(self.id, self.seqno))
+                self.server.knock(self.id, self.seqno)
                 self.seqno += 1
                 time.sleep(self.period)
         except Pyro4.errors.ConnectionClosedError:

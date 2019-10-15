@@ -76,25 +76,27 @@ def start_server(directory: str, fd_type: str = None, with_ns=False, ns_host="lo
 
     # failure detection client
     id_list = [id]
-    with open("failure_detection_host", "r") as fd_detail:
-        for line in fd_detail.readlines():
-            type, fd_id, fd_uri = line.split()
-            fd_conn = make_fd_connection(fd_uri)
-            if type == "pingack":
-                fd_client_thread = PingAckClient(fd_conn, 5)
-                fd_client_thread.start()
-                break
-            if type == "heartbeat":
-                fd_client_thread = HeartbeatClient(fd_conn, id, 5)
-                fd_client_thread.start()
-                break
-            if type == "alltoall" and fd_id not in id_list:
-                fd_client_thread = HeartbeatClient(fd_conn, id, 5)
-                fd_client_thread.start()
-                id_list.append(fd_id)
+    if fd_type:
+        with open("failure_detection_host", "r") as fd_detail:
+            for line in fd_detail.readlines():
+                type, fd_id, fd_uri = line.split()
+                fd_conn = make_fd_connection(fd_uri)
+                if type == "pingack":
+                    fd_client_thread = PingAckClient(fd_conn, 5)
+                    fd_client_thread.start()
+                    break
+                if type == "heartbeat":
+                    fd_client_thread = HeartbeatClient(fd_conn, id, 5)
+                    fd_client_thread.start()
+                    break
+                if type == "alltoall" and fd_id not in id_list:
+                    fd_client_thread = HeartbeatClient(fd_conn, id, 5)
+                    fd_client_thread.start()
+                    id_list.append(fd_id)
 
-    reload = FailureDetectionHostReload(id, id_list)
-    reload.start()
+    if fd_type == "alltoall":
+        reload = FailureDetectionHostReload(id, id_list)
+        reload.start()
 
     print("PyroFile URI:", uri)
     print("FailureDetection URI:", uri_failure_detection)
