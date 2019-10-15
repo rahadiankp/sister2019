@@ -1,6 +1,6 @@
 from PyroFile import FileManager
 from FailureDetection import PingAck, Heartbeat
-from FailureDetection_Client import PingAckClient, CentralizedHeartbeatClient
+from FailureDetection_Client import PingAckClient, HeartbeatClient
 import Pyro4
 import sys
 import random
@@ -41,7 +41,7 @@ class FailureDetectionHostReload(threading.Thread):
                     type, fd_id, fd_uri = line.split()
                     fd_conn = make_fd_connection(fd_uri)
                     if type == "alltoall" and not fd_id in self.id_list:
-                        fd_client_thread = CentralizedHeartbeatClient(fd_conn, self.id, 5)
+                        fd_client_thread = HeartbeatClient(fd_conn, self.id, 5)
                         fd_client_thread.start()
                         self.id_list.append(fd_id)
 
@@ -85,11 +85,11 @@ def start_server(directory: str, fd_type: str = None, with_ns=False, ns_host="lo
                 fd_client_thread.start()
                 break
             if type == "heartbeat":
-                fd_client_thread = CentralizedHeartbeatClient(fd_conn, id, 5)
+                fd_client_thread = HeartbeatClient(fd_conn, id, 5)
                 fd_client_thread.start()
                 break
             if type == "alltoall" and fd_id not in id_list:
-                fd_client_thread = CentralizedHeartbeatClient(fd_conn, id, 5)
+                fd_client_thread = HeartbeatClient(fd_conn, id, 5)
                 fd_client_thread.start()
                 id_list.append(fd_id)
 

@@ -30,7 +30,7 @@ class PingAckClient(threading.Thread):
             return
 
 
-class CentralizedHeartbeatClient(threading.Thread):
+class HeartbeatClient(threading.Thread):
     def __init__(self, server: Heartbeat, id: str, period: int):
         self.server: Heartbeat = server
         self.period = period
