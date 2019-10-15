@@ -25,6 +25,7 @@ def start_server(directory: str, fd_type: str = None, with_ns=False, ns_host="lo
     if fd_type == "pingack_server":
         uri_failure_detection = daemon.register(PingAck)
     if fd_type == "heartbeat_server":
+        Heartbeat.callback = heartbeat_callback
         uri_failure_detection = daemon.register(Heartbeat)
         print(uri_failure_detection.object)
 
@@ -53,6 +54,9 @@ def start_server(directory: str, fd_type: str = None, with_ns=False, ns_host="lo
 
 def make_fd_connection(uri: str) -> Pyro4.core.Proxy:
     return Pyro4.Proxy(uri)
+
+def heartbeat_callback(id, seqno):
+    print(id, seqno)
 
 
 if __name__ == "__main__":
