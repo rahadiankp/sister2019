@@ -66,10 +66,10 @@ class FileServer(object):
             return self.create_return_message('500','Error')
 
     def read(self, name: str):
-        nama = 'FFF-{}' . format(name)
-        print("read ops {}" . format(nama))
+        nama = 'FFF-{}'.format(name)
+        print("read ops {}".format(nama))
         try:
-            f = open(nama,'r+b')
+            f = open(FileServer.ROOTDIR+nama,'r+b')
             contents = f.read().decode()
             f.close()
             return self.create_return_message('101', 'OK', contents)
@@ -106,15 +106,6 @@ class FileServer(object):
             return self.create_return_message('500','Error')
 
 
-
 if __name__ == '__main__':
     k = FileServer()
-    print(k.create('f1'))
-    print(k.update('f1',content='wedusku'))
-    print(k.read('f1'))
-#    print(k.create('f2'))
-#    print(k.update('f2',content='wedusmu'))
-#    print(k.read('f2'))
-    print(k.list())
-    #print(k.delete('f1'))
 
