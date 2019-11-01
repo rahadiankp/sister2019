@@ -2,6 +2,7 @@ import os
 import Pyro4
 import base64
 
+
 class FileServer(object):
     PEERS = []
     NAMESERVER = ""
@@ -45,11 +46,11 @@ class FileServer(object):
         try:
             daftarfile = []
             for x in os.listdir(FileServer.ROOTDIR):
-                if x[0:4]=='FFF-':
+                if x[0:4] == 'FFF-':
                     daftarfile.append(x[4:])
-            return self.create_return_message('200',daftarfile)
+            return self.create_return_message('200', daftarfile)
         except:
-            return self.create_return_message('500','Error')
+            return self.create_return_message('500', 'Error')
 
     def create(self, name: str, broadcast: bool = True):
         nama = 'FFF-{}' . format(name)
