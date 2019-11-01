@@ -26,6 +26,7 @@ class FileServer(object):
         return fserver
 
     def execute_to_other_peers(self, command: str, data: dict = None):
+        data["broadcast"] = False
         if command == "create":
             for peer in FileServer.PEERS:
                 fs_object: FileServer = self.connect_proxy(peer)
@@ -46,15 +47,16 @@ class FileServer(object):
         except:
             return self.create_return_message('500','Error')
 
-    def create(self, name='filename000'):
-        nama='FFF-{}' . format(name)
+    def create(self, name: str, broadcast: bool = True):
+        nama = 'FFF-{}' . format(name)
         print("create ops {}" . format(nama))
         try:
             if os.path.exists(FileServer.ROOTDIR+nama):
                 return self.create_return_message('102', 'OK','File Exists')
             f = open(FileServer.ROOTDIR+nama,'wb',buffering=0)
             f.close()
-            self.execute_to_other_peers("create", {"name": name})
+            if broadcast:
+                self.execute_to_other_peers("create", {"name": name})
             return self.create_return_message('200','OK')
         except:
             return self.create_return_message('500','Error')
@@ -69,6 +71,7 @@ class FileServer(object):
             return self.create_return_message('101','OK',contents)
         except:
             return self.create_return_message('500','Error')
+
     def update(self,name='filename000',content=''):
         nama='FFF-{}' . format(name)
         print("update ops {}" . format(nama))
@@ -83,13 +86,14 @@ class FileServer(object):
         except Exception as e:
             return self.create_return_message('500','Error',str(e))
 
-    def delete(self,name='filename000'):
+    def delete(self, name: str, broadcast: bool = True):
         nama='FFF-{}' . format(name)
         print("delete ops {}" . format(nama))
 
         try:
             os.remove(FileServer.ROOTDIR+nama)
-            self.execute_to_other_peers("delete", {"name": name})
+            if broadcast:
+                self.execute_to_other_peers("delete", {"name": name})
             return self.create_return_message('101','OK')
         except:
             return self.create_return_message('500','Error')
