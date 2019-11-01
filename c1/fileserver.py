@@ -35,6 +35,10 @@ class FileServer(object):
             for peer in FileServer.PEERS:
                 fs_object: FileServer = self.connect_proxy(peer)
                 fs_object.delete(**data)
+        elif command == "update":
+            for peer in FileServer.PEERS:
+                fs_object: FileServer = self.connect_proxy(peer)
+                fs_object.update(**data)
 
     def list(self):
         print("list ops")
@@ -72,19 +76,22 @@ class FileServer(object):
         except:
             return self.create_return_message('500','Error')
 
-    def update(self,name='filename000',content=''):
-        nama='FFF-{}' . format(name)
-        print("update ops {}" . format(nama))
+    def update(self, name, content, broadcast: bool = True):
+        nama = 'FFF-{}'.format(name)
+        print("update ops {}".format(nama))
 
-        if (str(type(content))=="<class 'dict'>"):
+        if str(type(content)) == "<class 'dict'>":
             content = content['data']
+
         try:
-            f = open(nama,'w+b')
+            f = open(FileServer.ROOTDIR+nama, 'w+b')
             f.write(content.encode())
             f.close()
-            return self.create_return_message('101','OK')
+            if broadcast:
+                self.execute_to_other_peers("update", {"name": name, "content": content})
+            return self.create_return_message('101', 'OK')
         except Exception as e:
-            return self.create_return_message('500','Error',str(e))
+            return self.create_return_message('500', 'Error', str(e))
 
     def delete(self, name: str, broadcast: bool = True):
         nama='FFF-{}' . format(name)
