@@ -30,6 +30,10 @@ class FileServer(object):
             for peer in FileServer.PEERS:
                 fs_object: FileServer = self.connect_proxy(peer)
                 fs_object.create(**data)
+        elif command == "delete":
+            for peer in FileServer.PEERS:
+                fs_object: FileServer = self.connect_proxy(peer)
+                fs_object.delete(**data)
 
     def list(self):
         print("list ops")
@@ -54,6 +58,7 @@ class FileServer(object):
             return self.create_return_message('200','OK')
         except:
             return self.create_return_message('500','Error')
+
     def read(self,name='filename000'):
         nama='FFF-{}' . format(name)
         print("read ops {}" . format(nama))
@@ -83,7 +88,8 @@ class FileServer(object):
         print("delete ops {}" . format(nama))
 
         try:
-            os.remove(nama)
+            os.remove(FileServer.ROOTDIR+nama)
+            self.execute_to_other_peers("delete", {"name": name})
             return self.create_return_message('101','OK')
         except:
             return self.create_return_message('500','Error')

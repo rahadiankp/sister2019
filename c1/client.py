@@ -19,8 +19,14 @@ if __name__=='__main__':
 
 
     print(f.create('slide1.pdf'))
-    # f.update('slide1.pdf', content = open('slide1.pdf','rb+').read() )
     print(f.list())
+
+    print(f.create('slide2.pdf'))
+    print(f.list())
+
+    print(f.delete('slide1.pdf'))
+    print(f.list())
+
 
     #
     # f.create('slide2.pptx')
