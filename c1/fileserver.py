@@ -1,18 +1,41 @@
 import os
+import Pyro4
 import base64
 
 class FileServer(object):
+    PEERS = []
+    NAMESERVER = ""
+    PORT = ""
+    ROOTDIR = ""
+
     def __init__(self):
         pass
 
     def create_return_message(self,kode='000',message='kosong',data=None):
         return dict(kode=kode,message=message,data=data)
 
+    def list_peer(self):
+        return self.create_return_message("200", FileServer.PEERS)
+
+    def get_nameserver(self):
+        return self.create_return_message("200", FileServer.NAMESERVER)
+
+    def connect_proxy(self, instance_name):
+        uri = "PYRONAME:{0}@{1}:{2}".format(instance_name, FileServer.NAMESERVER, FileServer.PORT)
+        fserver = Pyro4.Proxy(uri)
+        return fserver
+
+    def execute_to_other_peers(self, command: str, data: dict = None):
+        if command == "create":
+            for peer in FileServer.PEERS:
+                fs_object: FileServer = self.connect_proxy(peer)
+                fs_object.create(**data)
+
     def list(self):
         print("list ops")
         try:
             daftarfile = []
-            for x in os.listdir():
+            for x in os.listdir(FileServer.ROOTDIR):
                 if x[0:4]=='FFF-':
                     daftarfile.append(x[4:])
             return self.create_return_message('200',daftarfile)
@@ -23,11 +46,12 @@ class FileServer(object):
         nama='FFF-{}' . format(name)
         print("create ops {}" . format(nama))
         try:
-            if os.path.exists(name):
+            if os.path.exists(FileServer.ROOTDIR+nama):
                 return self.create_return_message('102', 'OK','File Exists')
-            f = open(nama,'wb',buffering=0)
+            f = open(FileServer.ROOTDIR+nama,'wb',buffering=0)
             f.close()
-            return self.create_return_message('100','OK')
+            self.execute_to_other_peers("create", {"name": name})
+            return self.create_return_message('200','OK')
         except:
             return self.create_return_message('500','Error')
     def read(self,name='filename000'):
