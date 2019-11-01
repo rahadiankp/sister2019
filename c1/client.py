@@ -12,21 +12,33 @@ def get_fileserver_object():
     fserver = Pyro4.Proxy(uri)
     return fserver
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     f: FileServer = get_fileserver_object()
-    print(f.get_nameserver())
-    print(f.list_peer())
 
+    try:
+        while True:
+            command = input("> ")
+            cmd, params = command.split()[0], command.split()[1:]
 
-    print(f.create('slide1.pdf'))
-    print(f.list())
-
-    print(f.create('slide2.pdf'))
-    print(f.list())
-
-    print(f.delete('slide1.pdf'))
-    print(f.list())
-
+            if cmd == "create":
+                print(f.create(params[0]))
+            elif cmd == "list":
+                print(f.list())
+            elif cmd == "delete":
+                print(f.delete(params[0]))
+            elif cmd == "peers":
+                print(f.list_peer())
+            elif cmd == "nameserver":
+                print(f.get_nameserver())
+            elif cmd == "update":
+                print(f.update(params[0], params[1].encode()))
+            elif cmd == "read":
+                print(f.read(params[0]))
+            else:
+                pass
+    except KeyboardInterrupt:
+        print("Exit")
 
     #
     # f.create('slide2.pptx')
