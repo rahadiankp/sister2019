@@ -65,14 +65,14 @@ class FileServer(object):
         except:
             return self.create_return_message('500','Error')
 
-    def read(self,name='filename000'):
-        nama='FFF-{}' . format(name)
+    def read(self, name: str):
+        nama = 'FFF-{}' . format(name)
         print("read ops {}" . format(nama))
         try:
             f = open(nama,'r+b')
             contents = f.read().decode()
             f.close()
-            return self.create_return_message('101','OK',contents)
+            return self.create_return_message('101', 'OK', contents)
         except:
             return self.create_return_message('500','Error')
 
@@ -81,11 +81,11 @@ class FileServer(object):
         print("update ops {}".format(nama))
 
         if str(type(content)) == "<class 'dict'>":
-            content = content['data']
+            content = base64.b64decode(content['data'])
 
         try:
             f = open(FileServer.ROOTDIR+nama, 'w+b')
-            f.write(content.encode())
+            f.write(content)
             f.close()
             if broadcast:
                 self.execute_to_other_peers("update", {"name": name, "content": content})
