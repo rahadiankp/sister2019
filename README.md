@@ -8,3 +8,4 @@ George Coulouris, Jean Dollimore, Tim Kindberg, and Gordon Blair. 2011. Distribu
 Assig #1 - Written Task  
 [Assig #2 - Python Pyro](https://github.com/rahadiankp/sister2019/tree/master/tugas2)  
 [Assig #3 - Python Pyro w/ Failure Detection](https://github.com/rahadiankp/sister2019/tree/with-failure-detector)
+[Assig #4-5 - Python Pyro w/ Data Consistency](https://github.com/rahadiankp/sister2019/tree/master/c1)  
